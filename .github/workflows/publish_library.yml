@@ -11,4 +11,4 @@ jobs:
           with:
             channel: 'stable'
         - name: Push to pub.dev
-          run: dart pub publish
+          run: dart pub publish && echo y
