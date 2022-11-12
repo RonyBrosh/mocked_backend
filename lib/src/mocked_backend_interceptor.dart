@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mocked_backend/src/model/request_not_mocked_exception.dart';
 import 'package:mocked_backend/src/model/scenario.dart';
 import 'package:mocked_backend/src/requests_manager.dart';
@@ -15,7 +16,11 @@ class MockedBackendInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final requestHandler = _requestsManager.handle(options);
     if (requestHandler == null) {
-      throw RequestNotMockedException(options);
+      final exception = RequestNotMockedException(options);
+      if (kDebugMode) {
+        print(exception);
+      }
+      throw exception;
     }
 
     final body = requestHandler.body;
