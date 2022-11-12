@@ -1,3 +1,3 @@
-## 0.0.1
+## 1.0.0 - First release
 
-* TODO: Describe initial release.
+* Testing publishing to pub.dev
