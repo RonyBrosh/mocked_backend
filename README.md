@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/RonyBrosh/mocked_backend/badge.svg)](https://coveralls.io/github/RonyBrosh/mocked_backend)
+
 A testing library for [Dio](https://pub.dev/packages/dio) based projects.  
 
 If you're using Dio directly or [Rertofit](https://pub.dev/packages/retrofit) for networking, You can validate your backend integration by mocking Json responses and errors. 
