@@ -1,0 +1,24 @@
+name: Test and publish code coverage
+on: 
+  push:
+    branches: [main]
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout the code
+        uses: actions/checkout@v2
+        - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+        - name: Restore packages
+        run: flutter pub get
+        - name: Run tests
+        run: flutter test --coverage
+        - name: Update test coverage badge
+        if: github.event_name != 'pull_request'
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.github_token }}
+        
