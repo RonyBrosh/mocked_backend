@@ -6,6 +6,7 @@ import 'package:mocked_backend/src/mocked_backend_interceptor.dart';
 import 'package:mocked_backend/src/model/mocked_request_handler.dart';
 import 'package:mocked_backend/src/model/request_matcher.dart';
 import 'package:mocked_backend/src/model/request_not_mocked_exception.dart';
+import 'package:mocked_backend/src/model/scenario.dart';
 
 void main() {
   const path = 'https://en.wikipedia.org/wiki/Camel_(band)?genre=progressive';
@@ -48,7 +49,7 @@ Body: {}
   test('sut SHOULD throw a RequestNotMockedException WHEN method is not mocked',
       () async {
     try {
-      sut.mockRequests([
+      sut.mockScenario(Scenario([
         MockedRequestHandler(
           requestMatcher: RequestMatcherFactory.multiple([
             RequestMatcherFactory.path(path),
@@ -59,7 +60,7 @@ Body: {}
           body: body,
           statusCode: statusCode,
         ),
-      ]);
+      ]));
       await dio.get(path);
       throw testShouldFailException;
     } catch (exception) {
@@ -73,14 +74,14 @@ Body: {}
   test('sut SHOULD throw a RequestNotMockedException WHEN body is not mocked',
       () async {
     try {
-      sut.mockRequests([
+      sut.mockScenario(Scenario([
         MockedRequestHandler(
           requestMatcher: RequestMatcherFactory.body(body),
           isSuccess: true,
           body: body,
           statusCode: statusCode,
         ),
-      ]);
+      ]));
       await dio.get(path, options: Options(extra: jsonDecode(body)));
       throw testShouldFailException;
     } catch (exception) {
@@ -93,14 +94,14 @@ Body: {}
 
   test('sut SHOULD return mocked response WHEN request is not success',
       () async {
-    sut.mockRequests([
+    sut.mockScenario(Scenario([
       MockedRequestHandler(
         requestMatcher: RequestMatcherFactory.path(path),
         isSuccess: false,
         body: body,
         statusCode: statusCode,
       ),
-    ]);
+    ]));
     try {
       await dio.get(path);
     } catch (exception) {
@@ -111,7 +112,7 @@ Body: {}
   });
 
   test('sut SHOULD return mocked response WHEN request is success', () async {
-    sut.mockRequests([
+    sut.mockScenario(Scenario([
       MockedRequestHandler(
         requestMatcher: RequestMatcherFactory.path(
             'https://en.wikipedia.org/wiki/Andy_Ward_(musician)'),
@@ -128,7 +129,7 @@ Body: {}
         body: body,
         statusCode: statusCode,
       ),
-    ]);
+    ]));
     await dio.get('https://en.wikipedia.org/wiki/Andy_Ward_(musician)');
     final response = await dio.post(
       path,
