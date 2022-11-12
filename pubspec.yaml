@@ -1,14 +1,12 @@
 name: mocked_backend
 description: Mocked backend for testing
-version: 0.0.1
+version: 1.0.0
+repository: https://github.com/RonyBrosh/mocked_backend.git
 
 environment:
   sdk: '>=2.18.4 <3.0.0'
-  flutter: ">=1.17.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   dio: ^4.0.6
 
 dev_dependencies:
