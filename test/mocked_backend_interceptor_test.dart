@@ -8,7 +8,7 @@ import 'package:mocked_backend/src/model/request_matcher.dart';
 import 'package:mocked_backend/src/model/request_not_mocked_exception.dart';
 
 void main() {
-  const path = 'https://en.wikipedia.org/wiki/Camel_(band)';
+  const path = 'https://en.wikipedia.org/wiki/Camel_(band)?genre=progressive';
   const body = '{"key":"value"}';
   const statusCode = 666;
   final testShouldFailException = Exception('Test should fail');

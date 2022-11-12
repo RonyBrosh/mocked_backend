@@ -6,7 +6,7 @@ typedef RequestMatcher = bool Function(RequestOptions);
 
 abstract class RequestMatcherFactory {
   static RequestMatcher path(String path) =>
-      (requestOptions) => requestOptions.path == path;
+      (requestOptions) => requestOptions.path.contains(path);
 
   static RequestMatcher method(String method) => (requestOptions) =>
       requestOptions.method.toUpperCase() == method.toUpperCase();
@@ -19,14 +19,12 @@ abstract class RequestMatcherFactory {
     isExactMatch = false,
   ]) =>
       (requestOptions) {
-        if (isExactMatch) {
-          return requestOptions.queryParameters.toString() ==
-              queryParameters.toString();
-        } else {
-          return requestOptions.queryParameters
-              .toString()
-              .contains(queryParameters.toString());
-        }
+        return queryParameters.keys.fold(
+          true,
+          (previousValue, key) =>
+              previousValue &&
+              requestOptions.queryParameters[key] == queryParameters[key],
+        );
       };
 
   static RequestMatcher multiple(List<RequestMatcher> matchers) =>
