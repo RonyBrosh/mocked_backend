@@ -2,6 +2,9 @@ name: Test and publish code coverage
 on: 
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '**.yml'
 jobs:
   run_tests_and_update_coverage_badge:
     runs-on: ubuntu-latest
