@@ -64,7 +64,10 @@ void main() {
       () async {
     final scenario = Scenario([
       MockedRequestHandler(
-        requestMatcher: RequestMatcherFactory.path('/app/tracks'),
+        requestMatcher: RequestMatcherFactory.multiple([
+          RequestMatcherFactory.path('/app/tracks'),
+          RequestMatcherFactory.query({'artist': artist}),
+        ]),
         isSuccess: false,
         statusCode: 400,
       ),

@@ -10,8 +10,7 @@ class DeezerRepository {
     try {
       final result = await _deezerApi.getTracksForArtist(artist);
       return result.data;
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return [];
     }
   }
