@@ -29,7 +29,7 @@ void main() {
       'sut SHOULD throw a RequestNotMockedException WHEN request is not mocked',
       () async {
     try {
-      await dio.get('un mocked path');
+      await dio.get(path);
       throw testShouldFailException;
     } catch (exception) {
       final expected =
@@ -39,7 +39,7 @@ void main() {
         '''
 REQUEST NOT MOCKED EXCEPTION
 Method: GET
-Path: un mocked path
+Path: $path
 Body: {}
 ''',
       );
@@ -83,6 +83,25 @@ Body: {}
         ),
       ]));
       await dio.get(path, options: Options(extra: jsonDecode(body)));
+      throw testShouldFailException;
+    } catch (exception) {
+      expect(
+        (exception as DioError).error.runtimeType,
+        RequestNotMockedException,
+      );
+    }
+  });
+
+  test('sut SHOULD throw a RequestNotMockedException WHEN query is not mocked',
+      () async {
+    try {
+      sut.mockScenario(Scenario([
+        MockedRequestHandler(
+          requestMatcher: RequestMatcherFactory.query(queryParameters),
+          isSuccess: true,
+        ),
+      ]));
+      await dio.get(path);
       throw testShouldFailException;
     } catch (exception) {
       expect(

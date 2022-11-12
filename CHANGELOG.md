@@ -1,3 +1,6 @@
+## 1.0.4
+* Added tests for query parameters
+* Added debug log for un mocked request
 ## 1.0.3
 * Added code coverage badge
 ## 1.0.2
