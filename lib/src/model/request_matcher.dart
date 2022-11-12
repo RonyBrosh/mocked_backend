@@ -14,10 +14,20 @@ abstract class RequestMatcherFactory {
   static RequestMatcher body(String body) =>
       (request) => request.data.toString() == jsonDecode(body).toString();
 
-  static RequestMatcher query(Map<String, String> queryParameters) =>
-      (requestOptions) =>
-          requestOptions.queryParameters.toString() ==
-          queryParameters.toString();
+  static RequestMatcher query(
+    Map<String, String> queryParameters, [
+    isExactMatch = false,
+  ]) =>
+      (requestOptions) {
+        if (isExactMatch) {
+          return requestOptions.queryParameters.toString() ==
+              queryParameters.toString();
+        } else {
+          return requestOptions.queryParameters
+              .toString()
+              .contains(queryParameters.toString());
+        }
+      };
 
   static RequestMatcher multiple(List<RequestMatcher> matchers) =>
       (requestOptions) => matchers.fold(
