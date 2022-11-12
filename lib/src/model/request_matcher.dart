@@ -14,10 +14,7 @@ abstract class RequestMatcherFactory {
   static RequestMatcher body(String body) =>
       (request) => request.data.toString() == jsonDecode(body).toString();
 
-  static RequestMatcher query(
-    Map<String, String> queryParameters, [
-    isExactMatch = false,
-  ]) =>
+  static RequestMatcher query(Map<String, String> queryParameters) =>
       (requestOptions) {
         return queryParameters.keys.fold(
           true,
