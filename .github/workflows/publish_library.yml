@@ -1,0 +1,9 @@
+name: Publish to pub.dev
+jobs:
+  publish_library:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout the code
+          uses: actions/checkout@v2
+        - name: Push to pub.dev
+          run: dart pub publish
