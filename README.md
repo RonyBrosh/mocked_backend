@@ -104,4 +104,8 @@ mockedBackendInterceptor.mockScenario(sendEmailSucceedsScenario);
   It won't fail your test if you use try-catch so it acts as indication for a potential missing step in the test.
   
 That's it! If you run a test and a triggered endpoint is matched then you'll get the expected mocked response.
+  
+## Example app
+If you want to see more examples, checkout the [example](https://github.com/RonyBrosh/mocked_backend/tree/main/example) in the Github repository.
+
 
