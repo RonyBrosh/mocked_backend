@@ -18,4 +18,12 @@ dev_dependencies:
 The latest version can be found in the [Versions](https://pub.dev/packages/mocked_backend/versions) tab on pub.dev
 * Make sure it's added as a **dev_dependencies**
 
-
+### Setup a Dio interceptor
+Create an instance of **MockedBackendInterceptor** and add it to Dio's interceptors: 
+```dart
+mockedBackendInterceptor = MockedBackendInterceptor();
+final dio = Dio(BaseOptions(baseUrl: 'https://api.deezer.com'));
+dio.interceptors.add(mockedBackendInterceptor);
+```
+* For unit tests, keep a reference for the above interceptor to use it in your tests later
+* For BDD tests, you can register the interceptor in your DI of choise and then simply "get_it" when needed
