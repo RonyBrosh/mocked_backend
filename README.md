@@ -94,14 +94,13 @@ The last step is to pass the scenario to the **MockedBackendInterceptor**:
 mockedBackendInterceptor.mockScenario(sendEmailSucceedsScenario);
 ```
   
-* Please note, If your test calls an endpoint and it's not mocked, you'll see this error log in the console:
+* Please note, If your test calls an endpoint that isn't mocked, a RequestNotMockedException will be thrown:
   ```dart
   REQUEST NOT MOCKED EXCEPTION
   Method: GET
   Path: /app/tracks?limit=5
   Body: {}
   ```
-  It won't fail your test if you use try-catch so it acts as indication for a potential missing step in the test.
   
 That's it! If you run a test and a triggered endpoint is matched then you'll get the expected mocked response.
   

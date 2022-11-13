@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:mocked_backend/src/model/request_not_mocked_exception.dart';
 import 'package:mocked_backend/src/model/scenario.dart';
 import 'package:mocked_backend/src/requests_manager.dart';
@@ -13,14 +13,11 @@ class MockedBackendInterceptor extends Interceptor {
       _requestsManager.setRequests(scenario.requests);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  FutureOr<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     final requestHandler = _requestsManager.handle(options);
     if (requestHandler == null) {
-      final exception = RequestNotMockedException(options);
-      if (kDebugMode) {
-        print(exception);
-      }
-      throw exception;
+      throw RequestNotMockedException(options);
     }
 
     final body = requestHandler.body;
@@ -30,7 +27,7 @@ class MockedBackendInterceptor extends Interceptor {
       statusCode: requestHandler.statusCode,
     );
 
-    requestHandler.isSuccess
+    return requestHandler.isSuccess
         ? handler.resolve(response)
         : handler.reject(DioError(requestOptions: options, response: response));
   }

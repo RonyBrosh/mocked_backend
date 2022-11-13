@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -12,7 +13,6 @@ void main() {
   const path = 'https://en.wikipedia.org/wiki/Camel_(band)?genre=progressive';
   const body = '{"key":"value"}';
   const statusCode = 666;
-  final testShouldFailException = Exception('Test should fail');
   final queryParameters = {"Bass": "Fender", "name": "Doug Ferguson"};
 
   late Dio dio;
@@ -20,95 +20,106 @@ void main() {
 
   setUp(() {
     sut = MockedBackendInterceptor();
-
     dio = Dio();
     dio.interceptors.add(sut);
   });
-
   test(
       'sut SHOULD throw a RequestNotMockedException WHEN request is not mocked',
-      () async {
-    try {
-      await dio.get(path);
-      throw testShouldFailException;
-    } catch (exception) {
-      final expected =
-          (exception as DioError).error as RequestNotMockedException;
-      expect(
-        expected.toString(),
-        '''
+      () {
+    runZonedGuarded(
+      () => sut.onRequest(
+        RequestOptions(path: path),
+        RequestInterceptorHandler(),
+      ),
+      (error, _) {
+        expect(
+          error.toString(),
+          '''
 REQUEST NOT MOCKED EXCEPTION
 Method: GET
 Path: $path
 Body: {}
 ''',
-      );
-    }
+        );
+      },
+    );
   });
 
   test('sut SHOULD throw a RequestNotMockedException WHEN method is not mocked',
-      () async {
-    try {
-      sut.mockScenario(Scenario([
-        MockedRequestHandler(
-          requestMatcher: RequestMatcherFactory.multiple([
-            RequestMatcherFactory.path(path),
-            RequestMatcherFactory.method('POST'),
-            RequestMatcherFactory.body(body),
-          ]),
-          isSuccess: true,
-          body: body,
-          statusCode: statusCode,
-        ),
-      ]));
-      await dio.get(path);
-      throw testShouldFailException;
-    } catch (exception) {
-      expect(
-        (exception as DioError).error.runtimeType,
-        RequestNotMockedException,
-      );
-    }
+      () {
+    sut.mockScenario(Scenario([
+      MockedRequestHandler(
+        requestMatcher: RequestMatcherFactory.multiple([
+          RequestMatcherFactory.path(path),
+          RequestMatcherFactory.method('POST'),
+          RequestMatcherFactory.body(body),
+        ]),
+        isSuccess: true,
+        body: body,
+        statusCode: statusCode,
+      ),
+    ]));
+    runZonedGuarded(
+      () => sut.onRequest(
+        RequestOptions(path: path),
+        RequestInterceptorHandler(),
+      ),
+      (error, _) {
+        expect(
+          error.runtimeType,
+          RequestNotMockedException,
+        );
+      },
+    );
   });
 
   test('sut SHOULD throw a RequestNotMockedException WHEN body is not mocked',
-      () async {
-    try {
-      sut.mockScenario(Scenario([
-        MockedRequestHandler(
-          requestMatcher: RequestMatcherFactory.body(body),
-          isSuccess: true,
-          body: body,
-          statusCode: statusCode,
+      () {
+    sut.mockScenario(Scenario([
+      MockedRequestHandler(
+        requestMatcher: RequestMatcherFactory.body(body),
+        isSuccess: true,
+        body: body,
+        statusCode: statusCode,
+      ),
+    ]));
+    runZonedGuarded(
+      () => sut.onRequest(
+        RequestOptions(
+          path: path,
+          extra: jsonDecode(body),
         ),
-      ]));
-      await dio.get(path, options: Options(extra: jsonDecode(body)));
-      throw testShouldFailException;
-    } catch (exception) {
-      expect(
-        (exception as DioError).error.runtimeType,
-        RequestNotMockedException,
-      );
-    }
+        RequestInterceptorHandler(),
+      ),
+      (error, _) {
+        expect(
+          error.runtimeType,
+          RequestNotMockedException,
+        );
+      },
+    );
   });
 
   test('sut SHOULD throw a RequestNotMockedException WHEN query is not mocked',
-      () async {
-    try {
-      sut.mockScenario(Scenario([
-        MockedRequestHandler(
-          requestMatcher: RequestMatcherFactory.query(queryParameters),
-          isSuccess: true,
-        ),
-      ]));
-      await dio.get(path);
-      throw testShouldFailException;
-    } catch (exception) {
-      expect(
-        (exception as DioError).error.runtimeType,
-        RequestNotMockedException,
-      );
-    }
+      () {
+    sut.mockScenario(Scenario([
+      MockedRequestHandler(
+        requestMatcher: RequestMatcherFactory.query(queryParameters),
+        isSuccess: true,
+      ),
+    ]));
+    runZonedGuarded(
+      () => sut.onRequest(
+        RequestOptions(path: path),
+        RequestInterceptorHandler(),
+      ),
+      (error, _) {
+        expect(
+          error.runtimeType,
+          RequestNotMockedException,
+        );
+      },
+    );
   });
 
   test('sut SHOULD return mocked response WHEN request is not success',
