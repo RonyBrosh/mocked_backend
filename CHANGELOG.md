@@ -1,3 +1,5 @@
+## 1.0.5
+* Updated read me
 ## 1.0.4
 * Added tests for query parameters
 * Added debug log for un mocked request
