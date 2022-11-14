@@ -94,7 +94,8 @@ The last step is to pass the scenario to the **MockedBackendInterceptor**:
 mockedBackendInterceptor.mockScenario(sendEmailSucceedsScenario);
 ```
   
-* Please note, If your test calls an endpoint that isn't mocked, a RequestNotMockedException will be thrown:
+#### Please note, 
+If your test calls an endpoint that isn't mocked, a **RequestNotMockedException** will be thrown:
   ```dart
   REQUEST NOT MOCKED EXCEPTION
   Method: GET
