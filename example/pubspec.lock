@@ -325,7 +325,7 @@ packages:
       name: mocked_backend
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.6"
   package_config:
     dependency: transitive
     description:

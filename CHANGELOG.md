@@ -1,3 +1,5 @@
+## 1.0.6
+* Updated read me
 ## 1.0.5
 * Updated read me
 ## 1.0.4
