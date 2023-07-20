@@ -29,6 +29,8 @@ class MockedBackendInterceptor extends Interceptor {
 
     return requestHandler.isSuccess
         ? handler.resolve(response)
-        : handler.reject(DioError(requestOptions: options, response: response));
+        : handler.reject(
+            DioException(requestOptions: options, response: response),
+          );
   }
 }

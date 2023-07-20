@@ -1,3 +1,5 @@
+## 1.0.8
+* Updated examples app dependencies
 ## 1.0.7
 * Updated Dio to ^5.3.0
 ## 1.0.6

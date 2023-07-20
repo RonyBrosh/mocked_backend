@@ -135,7 +135,7 @@ Body: {}
     try {
       await dio.get(path);
     } catch (exception) {
-      final dioError = (exception as DioError);
+      final dioError = (exception as DioException);
       expect(dioError.response!.data, jsonDecode(body));
       expect(dioError.response!.statusCode, statusCode);
     }
