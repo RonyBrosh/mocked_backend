@@ -1,3 +1,5 @@
+## 1.0.7
+* Updated Dio to ^5.3.0
 ## 1.0.6
 * Updated read me
 ## 1.0.5
